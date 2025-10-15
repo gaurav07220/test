@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full bg-gray-100">
+    <html lang="en" className="h-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -23,7 +23,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased h-full">
         <CartProvider>
-            <div className="relative md:max-w-sm md:mx-auto h-full bg-background shadow-lg">
+            <div className="relative h-full bg-background">
                 {children}
                 <Toaster />
             </div>

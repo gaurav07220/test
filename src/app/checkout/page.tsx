@@ -95,41 +95,8 @@ export default function CheckoutPage() {
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 pb-32">
         <h1 className="text-2xl font-headline font-bold mb-6">Checkout</h1>
-        <div className="grid gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Order Summary ({cart.length})</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-32">
-                  <ul className="space-y-2 text-sm pr-4">
-                    {cart.map(item => (
-                      <li key={item.id} className="flex items-center justify-between">
-                          <div className="flex items-center">
-                              <Image src={item.image.imageUrl} alt={item.name} width={32} height={32} className="rounded-md mr-2" data-ai-hint={item.image.imageHint} />
-                              <div>
-                                  <p className="font-medium line-clamp-1">{item.name} (x{item.quantity})</p>
-                              </div>
-                          </div>
-                          <span>${(item.price * item.quantity).toFixed(2)}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </ScrollArea>
-                <Separator className="my-4" />
-                <div className="space-y-2 text-sm">
-                    <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-muted-foreground"><span>Taxes</span><span>${taxes.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-muted-foreground"><span>Shipping</span><span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span></div>
-                </div>
-                <Separator className="my-4" />
-                <div className="flex justify-between font-bold text-base">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-              </CardContent>
-            </Card>
-
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="space-y-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <Card>
@@ -207,17 +174,60 @@ export default function CheckoutPage() {
                     </div>
                   </CardContent>
                 </Card>
-
-                <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t md:left-auto md:right-auto md:max-w-sm">
-                    <Button type="submit" className="w-full" size="lg">
+                <div className="hidden md:block">
+                  <Button type="submit" className="w-full" size="lg">
                     <CreditCard className="mr-2 h-5 w-5" />
                     Place Order (${total.toFixed(2)})
-                    </Button>
+                  </Button>
                 </div>
-
               </form>
             </Form>
+          </div>
+          <div className="space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Order Summary ({cart.length})</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-48">
+                  <ul className="space-y-4 text-sm pr-4">
+                    {cart.map(item => (
+                      <li key={item.id} className="flex items-start justify-between">
+                          <div className="flex items-start">
+                              <Image src={item.image.imageUrl} alt={item.name} width={48} height={48} className="rounded-md mr-4" data-ai-hint={item.image.imageHint} />
+                              <div>
+                                  <p className="font-medium line-clamp-2">{item.name}</p>
+                                  <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                              </div>
+                          </div>
+                          <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </ScrollArea>
+                <Separator className="my-4" />
+                <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
+                    <div className="flex justify-between text-muted-foreground"><span>Taxes</span><span>${taxes.toFixed(2)}</span></div>
+                    <div className="flex justify-between text-muted-foreground"><span>Shipping</span><span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span></div>
+                </div>
+                <Separator className="my-4" />
+                <div className="flex justify-between font-bold text-base">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+              </CardContent>
+            </Card>
+           </div>
         </div>
+
+        <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t md:hidden">
+            <Button type="submit" form={form.formState.isSubmitting ? undefined : "checkout-form"} className="w-full" size="lg">
+            <CreditCard className="mr-2 h-5 w-5" />
+            Place Order (${total.toFixed(2)})
+            </Button>
+        </div>
+
       </main>
       <Footer />
     </div>
