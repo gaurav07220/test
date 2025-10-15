@@ -6,7 +6,7 @@ import { CartProvider } from '@/context/CartProvider';
 import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
-  title: 'Blinkit',
+  title: "Gaurav's Store",
   description: 'Your one-stop shop for everything, delivered fast.',
 };
 
