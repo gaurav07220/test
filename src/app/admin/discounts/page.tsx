@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Table,
@@ -29,8 +27,17 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { discounts as initialDiscounts } from "@/lib/data";
 import type { Discount } from "@/lib/definitions";
@@ -52,6 +59,9 @@ type DiscountFormValues = z.infer<typeof discountSchema>;
 export default function AdminDiscountsPage() {
   const [discounts, setDiscounts] = React.useState<Discount[]>(initialDiscounts);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
+  const [selectedDiscount, setSelectedDiscount] = React.useState<Discount | null>(null);
+  const [formMode, setFormMode] = React.useState<'create' | 'edit'>('create');
   const { toast } = useToast();
 
   const form = useForm<DiscountFormValues>({
@@ -63,20 +73,68 @@ export default function AdminDiscountsPage() {
     },
   });
 
-  const onSubmit = (data: DiscountFormValues) => {
-    const newDiscount: Discount = {
-        id: `disc-${Date.now()}`,
-        ...data
-    };
-    setDiscounts(prev => [newDiscount, ...prev]);
-    initialDiscounts.unshift(newDiscount);
+  const openFormForCreate = () => {
+    form.reset({ code: "", percentage: 10, isActive: true });
+    setFormMode('create');
+    setIsFormOpen(true);
+  };
+  
+  const openFormForEdit = (discount: Discount) => {
+    setSelectedDiscount(discount);
+    form.reset(discount);
+    setFormMode('edit');
+    setIsFormOpen(true);
+  };
 
-    toast({
-        title: "Discount Created",
-        description: `Code "${data.code}" has been created successfully.`,
-    });
+  const openDeleteDialog = (discount: Discount) => {
+    setSelectedDiscount(discount);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const onSubmit = (data: DiscountFormValues) => {
+    if (formMode === 'create') {
+        const newDiscount: Discount = {
+            id: `disc-${Date.now()}`,
+            ...data
+        };
+        const newDiscounts = [newDiscount, ...discounts];
+        setDiscounts(newDiscounts);
+        initialDiscounts.splice(0, initialDiscounts.length, ...newDiscounts);
+
+        toast({
+            title: "Discount Created",
+            description: `Code "${data.code}" has been created successfully.`,
+        });
+    } else if (formMode === 'edit' && selectedDiscount) {
+        const updatedDiscount = { ...selectedDiscount, ...data };
+        const newDiscounts = discounts.map(d => d.id === selectedDiscount.id ? updatedDiscount : d);
+        setDiscounts(newDiscounts);
+        initialDiscounts.splice(0, initialDiscounts.length, ...newDiscounts);
+
+         toast({
+            title: "Discount Updated",
+            description: `Code "${data.code}" has been updated successfully.`,
+        });
+    }
+    
     setIsFormOpen(false);
-    form.reset();
+    setSelectedDiscount(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedDiscount) {
+        const newDiscounts = discounts.filter(d => d.id !== selectedDiscount.id);
+        setDiscounts(newDiscounts);
+        initialDiscounts.splice(0, initialDiscounts.length, ...newDiscounts);
+
+        toast({
+            title: "Discount Deleted",
+            description: `Code "${selectedDiscount.code}" has been deleted.`,
+            variant: "destructive",
+        });
+    }
+    setIsDeleteDialogOpen(false);
+    setSelectedDiscount(null);
   };
 
   return (
@@ -88,18 +146,18 @@ export default function AdminDiscountsPage() {
                 Manage your promotional codes and offers.
             </p>
         </div>
-        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-            <DialogTrigger asChild>
-                <Button size="sm" className="gap-1">
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    <span>Create Discount</span>
-                </Button>
-            </DialogTrigger>
+        <Button size="sm" className="gap-1" onClick={openFormForCreate}>
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span>Create Discount</span>
+        </Button>
+      </div>
+
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogContent>
                  <DialogHeader>
-                  <DialogTitle>Create a New Discount</DialogTitle>
+                  <DialogTitle>{formMode === 'create' ? 'Create a New Discount' : 'Edit Discount'}</DialogTitle>
                   <DialogDescription>
-                    Fill out the details to create a new promotional code.
+                    {formMode === 'create' ? 'Fill out the details to create a new promotional code.' : `Update the details for the code "${selectedDiscount?.code}".`}
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -154,11 +212,11 @@ export default function AdminDiscountsPage() {
                 </Form>
                  <DialogFooter>
                     <Button variant="outline" onClick={() => setIsFormOpen(false)}>Cancel</Button>
-                    <Button type="submit" form="discount-form">Create Discount</Button>
+                    <Button type="submit" form="discount-form">{formMode === 'create' ? 'Create Discount' : 'Save Changes'}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-      </div>
+
 
       <Card>
         <CardContent className="p-0">
@@ -197,8 +255,8 @@ export default function AdminDiscountsPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem onClick={() => openFormForEdit(discount)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive" onClick={() => openDeleteDialog(discount)}>
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -210,6 +268,26 @@ export default function AdminDiscountsPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the discount code "{selectedDiscount?.code}".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive hover:bg-destructive/90">
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
