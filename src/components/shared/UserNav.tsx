@@ -5,9 +5,6 @@ import Link from 'next/link';
 import {
   User,
   LogOut,
-  LayoutDashboard,
-  Store,
-  Package,
   Settings,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -64,54 +61,21 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        {/* Customer Links */}
-        {user.role === 'customer' && (
-          <DropdownMenuGroup>
-            <DropdownMenuItem asChild>
-              <Link href="/account/orders">
-                <Package className="mr-2 h-4 w-4" />
-                <span>My Orders</span>
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/account/profile">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+              <Link href="/account/settings">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
               </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/account/profile">
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-                <Link href="/account/settings">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-                </Link>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        )}
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         
-        {/* Admin Links */}
-        {user.role === 'admin' && (
-          <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/admin">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                </Link>
-              </DropdownMenuItem>
-          </DropdownMenuGroup>
-        )}
-
-        {/* Store Links */}
-        {user.role === 'store' && (
-             <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                    <Link href="/store">
-                        <Store className="mr-2 h-4 w-4" />
-                        <span>Dashboard</span>
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuGroup>
-        )}
-
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
