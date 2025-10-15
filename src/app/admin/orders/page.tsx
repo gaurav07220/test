@@ -1,4 +1,8 @@
 
+"use client";
+
+import * as React from "react";
+import Image from "next/image";
 import {
     Card,
     CardContent,
@@ -17,8 +21,26 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { orders } from "@/lib/data"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Separator } from "@/components/ui/separator";
+import type { Order } from "@/lib/definitions";
 
 export default function AdminOrdersPage() {
+  const [selectedOrder, setSelectedOrder] = React.useState<Order | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const handleViewDetails = (order: Order) => {
+    setSelectedOrder(order);
+    setIsDialogOpen(true);
+  };
+
   return (
       <div>
         <CardHeader className="px-0">
@@ -44,7 +66,7 @@ export default function AdminOrdersPage() {
                                 {order.status}
                             </Badge>
                         </div>
-                        <Button variant="outline" size="sm">View Details</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleViewDetails(order)}>View Details</Button>
                     </CardContent>
                 </Card>
             ))}
@@ -77,7 +99,7 @@ export default function AdminOrdersPage() {
                     </TableCell>
                     <TableCell>${order.total.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
-                        <Button variant="outline" size="sm">View Details</Button>
+                        <Button variant="outline" size="sm" onClick={() => handleViewDetails(order)}>View Details</Button>
                     </TableCell>
                     </TableRow>
                 ))}
@@ -85,6 +107,50 @@ export default function AdminOrdersPage() {
             </Table>
             </CardContent>
         </Card>
+        
+        {selectedOrder && (
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogContent className="sm:max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle>Order Details</DialogTitle>
+                        <DialogDescription>
+                            Order #{selectedOrder.id.slice(-6)}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="space-y-2 text-sm">
+                            <p><strong>Date:</strong> {selectedOrder.date.toLocaleDateString()}</p>
+                            <p><strong>Status:</strong> <Badge variant={selectedOrder.status === 'Delivered' ? 'default' : 'secondary'}>{selectedOrder.status}</Badge></p>
+                             <p><strong>Shipping To:</strong> {selectedOrder.shippingAddress.street}, {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.zip}</p>
+                        </div>
+                        <Separator />
+                        <h4 className="font-semibold">Items</h4>
+                         <ul className="space-y-3">
+                            {selectedOrder.items.map(item => (
+                                <li key={item.product.id} className="flex items-center justify-between text-sm">
+                                    <div className="flex items-center gap-3">
+                                        <Image src={item.product.image.imageUrl} alt={item.product.name} width={40} height={40} className="rounded-md" />
+                                        <div>
+                                            <p className="font-medium line-clamp-1">{item.product.name}</p>
+                                            <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                                        </div>
+                                    </div>
+                                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                </li>
+                            ))}
+                        </ul>
+                         <Separator />
+                         <div className="flex justify-between font-bold">
+                            <span>Total</span>
+                            <span>${selectedOrder.total.toFixed(2)}</span>
+                         </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Close</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        )}
       </div>
   )
 }
