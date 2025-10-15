@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 export default function AdminCustomersPage() {
-    const customers = users.filter(user => user.role !== 'admin');
+    const customers = users.filter(user => user.role === 'customer');
 
   return (
     <div>
