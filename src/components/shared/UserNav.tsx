@@ -9,9 +9,6 @@ import {
   Store,
   Package,
   Settings,
-  ShoppingCart,
-  Users,
-  LineChart,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -94,66 +91,22 @@ export function UserNav() {
         {/* Admin Links */}
         {user.role === 'admin' && (
           <DropdownMenuGroup>
-              <DropdownMenuLabel>Admin</DropdownMenuLabel>
-               <DropdownMenuItem asChild>
-                    <Link href="/admin">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                        <span>Dashboard</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/admin/orders">
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        <span>Orders</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/admin/products">
-                        <Package className="mr-2 h-4 w-4" />
-                        <span>Products</span>
-                    </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                    <Link href="/admin/users">
-                        <Users className="mr-2 h-4 w-4" />
-                        <span>Customers</span>
-                    </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                    <Link href="/admin/analytics">
-                        <LineChart className="mr-2 h-4 w-4" />
-                        <span>Analytics</span>
-                    </Link>
-                </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/admin">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                </Link>
+              </DropdownMenuItem>
           </DropdownMenuGroup>
         )}
 
         {/* Store Links */}
         {user.role === 'store' && (
              <DropdownMenuGroup>
-                <DropdownMenuLabel>Store</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                     <Link href="/store">
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <Store className="mr-2 h-4 w-4" />
                         <span>Dashboard</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/store/orders">
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        <span>Orders</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/store/products">
-                        <Package className="mr-2 h-4 w-4" />
-                        <span>Products</span>
-                    </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                    <Link href="/store/analytics">
-                        <LineChart className="mr-2 h-4 w-4" />
-                        <span>Analytics</span>
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
