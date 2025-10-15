@@ -9,6 +9,7 @@ import {
   Store,
   CreditCard,
   Package,
+  Settings,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -86,6 +87,12 @@ export function UserNav() {
             <Link href="/account/billing">
               <CreditCard className="mr-2 h-4 w-4" />
               <span>Billing</span>
+            </Link>
+          </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/account/settings">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
             </Link>
           </DropdownMenuItem>
           {user.role === 'admin' && (

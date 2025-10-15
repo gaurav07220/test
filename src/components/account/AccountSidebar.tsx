@@ -21,8 +21,6 @@ import { Logo } from "../shared/Logo";
 const navItems = [
     { href: "/account/orders", icon: Package, label: "My Orders" },
     { href: "/account/profile", icon: User, label: "Profile" },
-    { href: "/account/billing", icon: CreditCard, label: "Billing" },
-    { href: "/account/settings", icon: Settings, label: "Settings" },
 ];
 
 function AccountSidebarComponent() {
