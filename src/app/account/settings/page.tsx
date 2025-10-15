@@ -66,18 +66,11 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent className="space-y-6">
                   <div className="flex items-center justify-between space-x-2">
-                      <Label htmlFor="marketing-emails">
-                          <span className="font-medium">Marketing Emails</span>
-                          <p className="text-xs text-muted-foreground">Receive emails about new products, features, and more.</p>
+                      <Label htmlFor="notifications-enabled">
+                          <span className="font-medium">Enable Notifications</span>
+                          <p className="text-xs text-muted-foreground">Receive all notifications including updates and offers.</p>
                       </Label>
-                      <Switch id="marketing-emails" />
-                  </div>
-                  <div className="flex items-center justify-between space-x-2">
-                      <Label htmlFor="security-emails">
-                          <span className="font-medium">Security Emails</span>
-                          <p className="text-xs text-muted-foreground">Receive emails about your account security.</p>
-                      </Label>
-                      <Switch id="security-emails" defaultChecked />
+                      <Switch id="notifications-enabled" defaultChecked />
                   </div>
               </CardContent>
           </Card>
