@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
@@ -29,6 +30,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm<UserFormValue>({
@@ -43,31 +45,44 @@ export function LoginForm() {
     setIsLoading(true);
     // Mock API call
     setTimeout(() => {
+        let userRole: 'customer' | 'admin' | 'store' = 'customer';
+        let userName = 'Demo User';
+        let redirectPath = '/';
+
       if (data.email === 'admin@blinkit.com') {
+        userRole = 'admin';
+        userName = 'Admin User';
+        redirectPath = '/admin';
         toast({
           title: 'Login Successful',
           description: "Welcome back, Admin! Redirecting...",
         });
-        router.push('/admin');
       } else if (data.email === 'store@blinkit.com') {
+        userRole = 'store';
+        userName = 'Store Owner';
+        redirectPath = '/store';
         toast({
             title: 'Login Successful',
             description: "Welcome back, Store Owner! Redirecting...",
         });
-        router.push('/store');
       } else if (data.email.includes('@')) {
         toast({
             title: 'Login Successful',
             description: "Welcome back! Redirecting...",
         });
-        router.push('/');
       } else {
         toast({
           variant: 'destructive',
           title: 'Login Failed',
           description: 'Invalid email or password.',
         });
+        setIsLoading(false);
+        return;
       }
+      
+      login({ name: userName, email: data.email, role: userRole });
+      router.push(redirectPath);
+      router.refresh(); // Refresh to update user state in header
       setIsLoading(false);
     }, 1000);
   };

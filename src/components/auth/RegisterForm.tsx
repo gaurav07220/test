@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,6 +19,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { useAuth, Role } from '@/hooks/use-auth';
+
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -35,6 +36,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 export function RegisterForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm<UserFormValue>({
@@ -56,13 +58,17 @@ export function RegisterForm() {
         title: 'Account Created!',
         description: `Welcome, ${data.name}! Your ${data.role} account is ready.`,
       });
+      
+      let redirectPath = '/';
       if (data.role === 'admin') {
-        router.push('/admin');
+        redirectPath = '/admin';
       } else if (data.role === 'store') {
-        router.push('/store');
-      } else {
-        router.push('/');
+        redirectPath = '/store';
       }
+      
+      login({ name: data.name, email: data.email, role: data.role as Role });
+      router.push(redirectPath);
+      router.refresh();
       setIsLoading(false);
     }, 1000);
   };

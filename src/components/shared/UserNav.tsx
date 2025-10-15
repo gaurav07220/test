@@ -7,7 +7,6 @@ import {
   LogOut,
   LayoutDashboard,
   Store,
-  CreditCard,
   Package,
   Settings,
   ShoppingCart,
@@ -25,27 +24,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
 
-// This is a mock authentication check.
-// In a real app, you'd use a proper auth provider.
-function useAuth() {
-    const [user, setUser] = useState<{ name: string; email: string; role: 'customer' | 'store' | 'admin' } | null>(null);
-
-    useEffect(() => {
-        // This simulates checking auth state on the client
-        // For example, checking localStorage or a cookie.
-        // For now, we'll just mock a logged in user.
-        // To test different roles, change 'customer' to 'store' or 'admin'
-        // and update the email to match the login logic (e.g., 'admin@blinkit.com')
-        setUser({ name: "Demo User", email: "user@blinkit.com", role: 'customer' });
-    }, []);
-
-    return { user };
-}
 
 export function UserNav() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+    router.refresh();
+  }
 
   if (!user) {
     return (
@@ -169,7 +160,7 @@ export function UserNav() {
         )}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
