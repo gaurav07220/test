@@ -85,12 +85,21 @@ export function UserNav() {
             <span>Billing</span>
           </DropdownMenuItem>
           {user.role === 'admin' && (
-            <DropdownMenuItem asChild>
-              <Link href="/admin">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Admin Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
+            <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                <Link href="/admin">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Admin Dashboard</span>
+                </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/admin/products">
+                        <Package className="mr-2 h-4 w-4" />
+                        <span>Products</span>
+                    </Link>
+                </DropdownMenuItem>
+            </>
           )}
           {user.role === 'store' && (
             <DropdownMenuItem asChild>

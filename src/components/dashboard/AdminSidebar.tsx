@@ -44,7 +44,7 @@ export function AdminSidebar() {
                                 href={item.href}
                                 className={cn(
                                     "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
-                                    pathname === item.href && "bg-accent text-accent-foreground"
+                                    pathname.startsWith(item.href) && "bg-accent text-accent-foreground"
                                 )}
                             >
                             <item.icon className="h-5 w-5" />
