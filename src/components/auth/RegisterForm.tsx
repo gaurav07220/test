@@ -25,9 +25,27 @@ const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['customer', 'store', 'admin'], {
+  role: z.enum(['store', 'admin'], {
     required_error: 'You need to select an account type.',
   }),
+  storeName: z.string().optional(),
+  storeAddress: z.string().optional(),
+}).refine(data => {
+    if (data.role === 'store') {
+        return !!data.storeName && data.storeName.length >= 2;
+    }
+    return true;
+}, {
+    message: 'Store name must be at least 2 characters.',
+    path: ['storeName'],
+}).refine(data => {
+    if (data.role === 'store') {
+        return !!data.storeAddress && data.storeAddress.length >= 5;
+    }
+    return true;
+}, {
+    message: 'Store address must be at least 5 characters.',
+    path: ['storeAddress'],
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -45,8 +63,12 @@ export function RegisterForm() {
       email: '',
       password: '',
       role: 'store',
+      storeName: '',
+      storeAddress: '',
     },
   });
+
+  const selectedRole = form.watch('role');
 
   const onSubmit = (data: UserFormValue) => {
     setIsLoading(true);
@@ -163,6 +185,37 @@ export function RegisterForm() {
           )}
         />
         
+        {selectedRole === 'store' && (
+            <>
+                <FormField
+                    control={form.control}
+                    name="storeName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Store Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="My Awesome Store" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="storeAddress"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Store Address</FormLabel>
+                            <FormControl>
+                                <Input placeholder="123 Market St" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </>
+        )}
+
         <Button disabled={isLoading} className="w-full" type="submit">
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Create Account
