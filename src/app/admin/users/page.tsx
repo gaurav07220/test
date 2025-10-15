@@ -19,14 +19,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 export default function AdminCustomersPage() {
-    const customers = users.filter(user => user.role === 'customer');
+    const customers = users.filter(user => user.role !== 'admin');
 
   return (
     <div>
         <CardHeader className="px-0">
-            <CardTitle>Customers</CardTitle>
+            <CardTitle>Users</CardTitle>
             <CardDescription>
-            Here is a list of all your customers.
+            Here is a list of all non-admin users.
             </CardDescription>
         </CardHeader>
         
@@ -42,7 +42,7 @@ export default function AdminCustomersPage() {
                         <div className="flex-grow">
                             <p className="font-semibold">{customer.name}</p>
                             <p className="text-sm text-muted-foreground">{customer.email}</p>
-                            <Badge variant="outline" className="mt-1">{customer.role}</Badge>
+                            <Badge variant="outline" className="mt-1 capitalize">{customer.role}</Badge>
                         </div>
                     </CardContent>
                 </Card>
@@ -55,7 +55,7 @@ export default function AdminCustomersPage() {
                 <Table>
                 <TableHeader>
                     <TableRow>
-                    <TableHead>Customer</TableHead>
+                    <TableHead>User</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Role</TableHead>
                     </TableRow>
@@ -74,7 +74,7 @@ export default function AdminCustomersPage() {
                         </TableCell>
                         <TableCell>{customer.email}</TableCell>
                         <TableCell>
-                            <Badge variant="outline">{customer.role}</Badge>
+                            <Badge variant="outline" className="capitalize">{customer.role}</Badge>
                         </TableCell>
                     </TableRow>
                     ))}
