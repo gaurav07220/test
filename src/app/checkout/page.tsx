@@ -98,7 +98,7 @@ export default function CheckoutPage() {
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-8">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form id="checkout-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Shipping Information</CardTitle>
@@ -222,7 +222,7 @@ export default function CheckoutPage() {
         </div>
 
         <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t md:hidden">
-            <Button type="submit" form={form.formState.isSubmitting ? undefined : "checkout-form"} className="w-full" size="lg">
+            <Button type="submit" form="checkout-form" className="w-full" size="lg">
             <CreditCard className="mr-2 h-5 w-5" />
             Place Order (${total.toFixed(2)})
             </Button>

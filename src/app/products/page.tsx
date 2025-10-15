@@ -15,7 +15,7 @@ export default function ProductsPage() {
         <section className="py-8">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl font-headline font-bold text-center mb-8">All Products</h1>
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {allProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

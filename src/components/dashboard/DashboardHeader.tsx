@@ -24,6 +24,7 @@ import { usePathname } from "next/navigation";
 import { AdminSidebar } from "./AdminSidebar";
 import { StoreSidebar } from './StoreSidebar';
 import { AccountSidebar } from '../account/AccountSidebar';
+import { Logo } from '../shared/Logo';
 
 function getBreadcrumbs(pathname: string) {
     const parts = pathname.split('/').filter(part => part);
@@ -35,19 +36,46 @@ function getBreadcrumbs(pathname: string) {
     return breadcrumbs;
 }
 
-function Sidebar() {
+function MobileSidebar() {
     const pathname = usePathname();
+    const navItems = getNavItems(pathname);
+
+    return (
+        <nav className="grid gap-6 text-lg font-medium">
+            <Link
+                href="/"
+                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+            >
+                <Logo />
+                <span className="sr-only">Blinkit</span>
+            </Link>
+            {navItems.map((item) => (
+                <Link
+                    key={item.href}
+                    href={item.href}
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                    <item.icon className="h-5 w-5" />
+                    {item.label}
+                </Link>
+            ))}
+        </nav>
+    );
+}
+
+function getNavItems(pathname: string) {
     if (pathname.startsWith('/admin')) {
-        return <AdminSidebar />;
+        return AdminSidebar.navItems;
     }
     if (pathname.startsWith('/store')) {
-        return <StoreSidebar />;
+        return StoreSidebar.navItems;
     }
     if (pathname.startsWith('/account')) {
-        return <AccountSidebar />;
+        return AccountSidebar.navItems;
     }
-    return null;
+    return [];
 }
+
 
 export function DashboardHeader() {
     const pathname = usePathname();
@@ -63,9 +91,7 @@ export function DashboardHeader() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Sidebar />
-          </nav>
+            <MobileSidebar />
         </SheetContent>
       </Sheet>
       <Breadcrumb className="hidden md:flex">
