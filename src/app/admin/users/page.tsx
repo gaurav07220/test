@@ -1,4 +1,7 @@
 
+"use client";
+
+import * as React from "react";
 import {
     Card,
     CardContent,
@@ -14,14 +17,49 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { users } from "@/lib/data"
+import { users as initialUsers } from "@/lib/data"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import type { User } from "@/lib/definitions";
 
 export default function AdminCustomersPage() {
-    const customers = users.filter(user => user.role === 'customer');
+    const [users, setUsers] = React.useState(initialUsers.filter(user => user.role !== 'admin'));
+    const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
+    const { toast } = useToast();
+
+    const openDeleteDialog = (user: User) => {
+        setSelectedUser(user);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (selectedUser) {
+            const newUsers = users.filter(u => u.id !== selectedUser.id);
+            setUsers(newUsers);
+
+            const userIndex = initialUsers.findIndex(u => u.id === selectedUser.id);
+            if (userIndex > -1) {
+                initialUsers.splice(userIndex, 1);
+            }
+
+            toast({
+                title: "User Deleted",
+                description: `User "${selectedUser.name}" has been deleted.`,
+                variant: "destructive",
+            });
+        }
+        setIsDeleteDialogOpen(false);
+        setSelectedUser(null);
+    };
 
   return (
+    <>
     <div>
         <CardHeader className="px-0">
             <CardTitle>Users</CardTitle>
@@ -32,7 +70,7 @@ export default function AdminCustomersPage() {
         
         {/* Mobile View */}
         <div className="md:hidden space-y-4">
-            {customers.map((customer) => (
+            {users.map((customer) => (
                 <Card key={customer.id}>
                     <CardContent className="flex items-center gap-4 p-4">
                         <Avatar className="h-12 w-12">
@@ -44,6 +82,24 @@ export default function AdminCustomersPage() {
                             <p className="text-sm text-muted-foreground">{customer.email}</p>
                             <Badge variant="outline" className="mt-1 capitalize">{customer.role}</Badge>
                         </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              aria-haspopup="true"
+                              size="icon"
+                              variant="ghost"
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Toggle menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem className="text-destructive" onClick={() => openDeleteDialog(customer)}>
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                     </CardContent>
                 </Card>
             ))}
@@ -58,10 +114,13 @@ export default function AdminCustomersPage() {
                     <TableHead>User</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Role</TableHead>
+                    <TableHead>
+                        <span className="sr-only">Actions</span>
+                    </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {customers.map((customer) => (
+                    {users.map((customer) => (
                     <TableRow key={customer.id}>
                         <TableCell>
                             <div className="flex items-center gap-3">
@@ -76,6 +135,26 @@ export default function AdminCustomersPage() {
                         <TableCell>
                             <Badge variant="outline" className="capitalize">{customer.role}</Badge>
                         </TableCell>
+                        <TableCell className="text-right">
+                            <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                aria-haspopup="true"
+                                size="icon"
+                                variant="ghost"
+                                >
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuItem className="text-destructive" onClick={() => openDeleteDialog(customer)}>
+                                Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                            </DropdownMenu>
+                        </TableCell>
                     </TableRow>
                     ))}
                 </TableBody>
@@ -83,5 +162,25 @@ export default function AdminCustomersPage() {
             </CardContent>
         </Card>
     </div>
+    <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the user "{selectedUser?.name}".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive hover:bg-destructive/90">
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }
