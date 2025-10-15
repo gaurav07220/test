@@ -25,22 +25,22 @@ const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['store', 'admin'], {
+  role: z.enum(['customer', 'admin'], {
     required_error: 'You need to select an account type.',
   }),
   storeName: z.string().optional(),
   storeAddress: z.string().optional(),
 }).refine(data => {
-    if (data.role === 'store') {
-        return !!data.storeName && data.storeName.length >= 2;
+    if (data.role === 'customer') {
+        return true;
     }
     return true;
 }, {
     message: 'Store name must be at least 2 characters.',
     path: ['storeName'],
 }).refine(data => {
-    if (data.role === 'store') {
-        return !!data.storeAddress && data.storeAddress.length >= 5;
+    if (data.role === 'customer') {
+        return true;
     }
     return true;
 }, {
@@ -62,7 +62,7 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
-      role: 'store',
+      role: 'customer',
       storeName: '',
       storeAddress: '',
     },
@@ -83,8 +83,8 @@ export function RegisterForm() {
       let redirectPath = '/';
       if (data.role === 'admin') {
         redirectPath = '/admin';
-      } else if (data.role === 'store') {
-        redirectPath = '/store';
+      } else if (data.role === 'customer') {
+        redirectPath = '/';
       }
       
       login({ name: data.name, email: data.email, role: data.role as Role });
@@ -164,10 +164,10 @@ export function RegisterForm() {
                 >
                   <FormItem className="flex items-center space-x-2 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="store" />
+                      <RadioGroupItem value="customer" />
                     </FormControl>
                     <FormLabel className="font-normal">
-                      Store Owner
+                      Customer
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-2 space-y-0">
