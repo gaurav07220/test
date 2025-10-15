@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/context/CartProvider';
 import { Header } from '@/components/shared/Header';
-import { Footer } from '@/components/shared/Footer';
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
@@ -25,7 +24,7 @@ export default function CartPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8 pb-20">
+      <main className="flex-grow container mx-auto px-4 py-8">
         <div className="flex items-center mb-6">
             <ShoppingCart className="h-6 w-6 mr-2 text-primary" />
             <h1 className="text-2xl font-headline font-bold">Your Cart</h1>
@@ -131,7 +130,6 @@ export default function CartPage() {
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

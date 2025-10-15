@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { products as allProducts, categories } from '@/lib/data';
 import { ProductCard } from '@/components/shared/ProductCard';
 import { Header } from '@/components/shared/Header';
-import { Footer } from '@/components/shared/Footer';
 import heroImage from '@/lib/placeholders/hero.json';
 
 export default function Home() {
@@ -74,7 +73,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

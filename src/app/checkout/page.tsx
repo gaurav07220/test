@@ -15,7 +15,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/CartProvider';
 import { Header } from '@/components/shared/Header';
-import { Footer } from '@/components/shared/Footer';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -85,7 +84,6 @@ export default function CheckoutPage() {
                     </CardContent>
                 </Card>
             </main>
-            <Footer />
         </div>
     )
   }
@@ -93,7 +91,7 @@ export default function CheckoutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8 pb-32">
+      <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-2xl font-headline font-bold mb-6">Checkout</h1>
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-8">
@@ -221,7 +219,7 @@ export default function CheckoutPage() {
            </div>
         </div>
 
-        <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t md:hidden">
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t md:hidden">
             <Button type="submit" form="checkout-form" className="w-full" size="lg">
             <CreditCard className="mr-2 h-5 w-5" />
             Place Order (${total.toFixed(2)})
@@ -229,7 +227,6 @@ export default function CheckoutPage() {
         </div>
 
       </main>
-      <Footer />
     </div>
   );
 }

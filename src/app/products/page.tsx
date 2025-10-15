@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { products as allProducts } from '@/lib/data';
 import { ProductCard } from '@/components/shared/ProductCard';
 import { Header } from '@/components/shared/Header';
-import { Footer } from '@/components/shared/Footer';
 
 export default function ProductsPage() {
   return (
@@ -23,7 +22,6 @@ export default function ProductsPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
