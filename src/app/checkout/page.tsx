@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { ArrowLeft, CreditCard } from 'lucide-react';
+import { ArrowLeft, CreditCard, Wallet } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -18,6 +18,8 @@ import { Header } from '@/components/shared/Header';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const shippingSchema = z.object({
   name: z.string().min(2, "Name is too short"),
@@ -28,12 +30,38 @@ const shippingSchema = z.object({
 });
 
 const paymentSchema = z.object({
-    cardNumber: z.string().regex(/^\d{16}$/, "Invalid card number"),
-    expiryDate: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Invalid expiry date (MM/YY)"),
-    cvc: z.string().regex(/^\d{3,4}$/, "Invalid CVC"),
+    paymentMethod: z.enum(['card', 'cod'], { required_error: "Please select a payment method." }),
+    cardNumber: z.string().optional(),
+    expiryDate: z.string().optional(),
+    cvc: z.string().optional(),
+    deliveryTime: z.string({ required_error: "Please select a delivery time."}),
 });
 
-const checkoutSchema = shippingSchema.merge(paymentSchema);
+const checkoutSchema = shippingSchema.merge(paymentSchema).superRefine((data, ctx) => {
+    if (data.paymentMethod === 'card') {
+        if (!data.cardNumber || !/^\d{16}$/.test(data.cardNumber)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Invalid card number",
+                path: ['cardNumber'],
+            });
+        }
+        if (!data.expiryDate || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(data.expiryDate)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Invalid expiry date (MM/YY)",
+                path: ['expiryDate'],
+            });
+        }
+        if (!data.cvc || !/^\d{3,4}$/.test(data.cvc)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Invalid CVC",
+                path: ['cvc'],
+            });
+        }
+    }
+});
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -48,11 +76,14 @@ export default function CheckoutPage() {
       city: "",
       zip: "",
       country: "",
+      paymentMethod: "card",
       cardNumber: "",
       expiryDate: "",
       cvc: "",
     },
   });
+
+  const paymentMethod = form.watch('paymentMethod');
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const taxes = subtotal * 0.08;
@@ -143,38 +174,111 @@ export default function CheckoutPage() {
                 </Card>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Payment Details</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <FormField name="cardNumber" control={form.control} render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Card Number</FormLabel>
-                            <FormControl><Input placeholder="•••• •••• •••• ••••" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField name="expiryDate" control={form.control} render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Expiry</FormLabel>
-                                <FormControl><Input placeholder="MM/YY" {...field} /></FormControl>
+                    <CardHeader>
+                        <CardTitle className="text-lg">Delivery Details</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FormField
+                            control={form.control}
+                            name="deliveryTime"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Preferred Delivery Time</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a time slot" />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="9am-12pm">9:00 AM - 12:00 PM</SelectItem>
+                                        <SelectItem value="12pm-3pm">12:00 PM - 3:00 PM</SelectItem>
+                                        <SelectItem value="3pm-6pm">3:00 PM - 6:00 PM</SelectItem>
+                                        <SelectItem value="anytime">Anytime</SelectItem>
+                                    </SelectContent>
+                                </Select>
                                 <FormMessage />
-                            </FormItem>
-                        )} />
-                        <FormField name="cvc" control={form.control} render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>CVC</FormLabel>
-                                <FormControl><Input placeholder="123" {...field} /></FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )} />
-                    </div>
-                  </CardContent>
+                                </FormItem>
+                            )}
+                        />
+                    </CardContent>
                 </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">Payment Details</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="paymentMethod"
+                            render={({ field }) => (
+                                <FormItem className="space-y-3">
+                                <FormLabel>Payment Method</FormLabel>
+                                <FormControl>
+                                    <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="grid grid-cols-2 gap-4"
+                                    >
+                                    <FormItem>
+                                        <FormControl>
+                                        <RadioGroupItem value="card" id="card" className="peer sr-only" />
+                                        </FormControl>
+                                        <Label htmlFor="card" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                                            <CreditCard className="mb-3 h-6 w-6" />
+                                            Card
+                                        </Label>
+                                    </FormItem>
+                                    <FormItem>
+                                        <FormControl>
+                                        <RadioGroupItem value="cod" id="cod" className="peer sr-only" />
+                                        </FormControl>
+                                        <Label htmlFor="cod" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                                            <Wallet className="mb-3 h-6 w-6" />
+                                            Cash on Delivery
+                                        </Label>
+                                    </FormItem>
+                                    </RadioGroup>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {paymentMethod === 'card' && (
+                            <div className='space-y-4 border p-4 rounded-md'>
+                                <FormField name="cardNumber" control={form.control} render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Card Number</FormLabel>
+                                        <FormControl><Input placeholder="•••• •••• •••• ••••" {...field} /></FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )} />
+                                <div className="grid grid-cols-2 gap-4">
+                                    <FormField name="expiryDate" control={form.control} render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Expiry</FormLabel>
+                                            <FormControl><Input placeholder="MM/YY" {...field} /></FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )} />
+                                    <FormField name="cvc" control={form.control} render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>CVC</FormLabel>
+                                            <FormControl><Input placeholder="123" {...field} /></FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )} />
+                                </div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
                 <div className="hidden md:block">
                   <Button type="submit" className="w-full" size="lg">
-                    <CreditCard className="mr-2 h-5 w-5" />
+                    {paymentMethod === 'card' ? <CreditCard className="mr-2 h-5 w-5" /> : <Wallet className="mr-2 h-5 w-5" />}
                     Place Order (${total.toFixed(2)})
                   </Button>
                 </div>
@@ -221,7 +325,7 @@ export default function CheckoutPage() {
 
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t md:hidden">
             <Button type="submit" form="checkout-form" className="w-full" size="lg">
-            <CreditCard className="mr-2 h-5 w-5" />
+            {paymentMethod === 'card' ? <CreditCard className="mr-2 h-5 w-5" /> : <Wallet className="mr-2 h-5 w-5" />}
             Place Order (${total.toFixed(2)})
             </Button>
         </div>
@@ -229,4 +333,5 @@ export default function CheckoutPage() {
       </main>
     </div>
   );
-}
+
+    
