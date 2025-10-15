@@ -11,6 +11,7 @@ import {
   Home,
   Settings,
   User,
+  Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,7 @@ const adminLinks = [
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/users", label: "Customers", icon: Users },
+  { href: "/admin/discounts", label: "Discounts", icon: Tag },
   { href: "/admin/analytics", label: "Analytics", icon: LineChart },
 ];
 

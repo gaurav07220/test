@@ -58,3 +58,10 @@ export type Order = {
     date: Date;
     shippingAddress: Address;
 };
+
+export type Discount = {
+    id: string;
+    code: string;
+    percentage: number;
+    isActive: boolean;
+};

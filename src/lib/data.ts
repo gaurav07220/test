@@ -1,5 +1,5 @@
 
-import type { Product, Category, User, Order } from './definitions';
+import type { Product, Category, User, Order, Discount } from './definitions';
 import placeholderData from './placeholders/all-products.json';
 
 export const categories: Category[] = [
@@ -102,4 +102,25 @@ export const orders: Order[] = [
             zip: '67890'
         }
     },
+];
+
+export const discounts: Discount[] = [
+    {
+        id: 'disc-1',
+        code: 'SUMMER10',
+        percentage: 10,
+        isActive: true,
+    },
+    {
+        id: 'disc-2',
+        code: 'FALL20',
+        percentage: 20,
+        isActive: false,
+    },
+    {
+        id: 'disc-3',
+        code: 'WELCOME15',
+        percentage: 15,
+        isActive: true,
+    }
 ];
