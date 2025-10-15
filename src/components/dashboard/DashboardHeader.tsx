@@ -1,6 +1,6 @@
-
 "use client";
 
+import * as React from 'react';
 import Link from "next/link";
 import { PanelLeft, Search as SearchIcon } from "lucide-react";
 import {
