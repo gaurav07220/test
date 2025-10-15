@@ -33,7 +33,7 @@ export default function CartPage() {
 
         {cart.length === 0 ? (
           <Card className="text-center p-8">
-            <CardContent className="flex flex-col items-center gap-4">
+            <CardContent className="flex flex-col items-center gap-4 pt-6">
                 <ShoppingCart className="h-12 w-12 text-muted-foreground" />
                 <h2 className="text-xl font-semibold">Your cart is empty</h2>
                 <p className="text-muted-foreground text-sm">Looks like you haven't added anything yet.</p>
@@ -45,93 +45,89 @@ export default function CartPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="flex flex-col gap-6">
-            <div>
-              <Card>
-                <CardHeader>
-                    <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg">Items ({cart.reduce((sum, item) => sum + item.quantity, 0)})</CardTitle>
-                        <Button variant="outline" size="sm" onClick={clearCart}>
-                            <Trash2 className="mr-2 h-4 w-4" /> Clear
+          <div className="grid gap-8">
+            <Card>
+              <CardHeader>
+                  <div className="flex justify-between items-center">
+                      <CardTitle className="text-lg">Items ({cart.reduce((sum, item) => sum + item.quantity, 0)})</CardTitle>
+                      <Button variant="outline" size="sm" onClick={clearCart}>
+                          <Trash2 className="mr-2 h-4 w-4" /> Clear
+                      </Button>
+                  </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <ul className="divide-y">
+                  {cart.map((item) => (
+                    <li key={item.id} className="flex items-center p-4">
+                      <Image
+                        src={item.image.imageUrl}
+                        alt={item.name}
+                        width={64}
+                        height={64}
+                        className="rounded-md object-cover mr-4"
+                        data-ai-hint={item.image.imageHint}
+                      />
+                      <div className="flex-grow">
+                        <p className="font-semibold text-sm line-clamp-1">{item.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          ${item.price.toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        >
+                          <Minus className="h-4 w-4" />
                         </Button>
-                    </div>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <ul className="divide-y">
-                    {cart.map((item) => (
-                      <li key={item.id} className="flex items-center p-3">
-                        <Image
-                          src={item.image.imageUrl}
-                          alt={item.name}
-                          width={64}
-                          height={64}
-                          className="rounded-md object-cover mr-3"
-                          data-ai-hint={item.image.imageHint}
-                        />
-                        <div className="flex-grow">
-                          <p className="font-semibold text-sm line-clamp-1">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            ${item.price.toFixed(2)}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-7 w-7"
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          >
-                            <Minus className="h-4 w-4" />
-                          </Button>
-                          <span className="font-bold w-8 text-center text-sm">{item.quantity}</span>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-7 w-7"
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          >
-                            <Plus className="h-4 w-4" />
-                          </Button>
-                        </div>
-                         <Button variant="ghost" size="icon" className="ml-1" onClick={() => removeFromCart(item.id)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                        <span className="font-bold w-5 text-center text-sm">{item.quantity}</span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        >
+                          <Plus className="h-4 w-4" />
                         </Button>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+                      </div>
+                       <Button variant="ghost" size="icon" className="ml-2" onClick={() => removeFromCart(item.id)}>
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-            <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Order Summary</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Taxes (8%)</span>
-                    <span>${taxes.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between font-bold text-base">
-                    <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-                  <Button className="w-full" size="lg" asChild>
-                    <Link href="/checkout">Proceed to Checkout</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Order Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between text-sm">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Taxes (8%)</span>
+                  <span>${taxes.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Shipping</span>
+                  <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between font-bold text-base">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+                <Button className="w-full" size="lg" asChild>
+                  <Link href="/checkout">Proceed to Checkout</Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         )}
       </main>
