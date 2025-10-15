@@ -38,6 +38,7 @@ export default function AdminOrdersPage() {
                     </CardHeader>
                     <CardContent className="flex justify-between items-center">
                         <div className="flex flex-col">
+                            <span className="font-semibold text-sm">Customer: User {order.userId.slice(-4)}</span>
                             <span className="font-bold text-lg">${order.total.toFixed(2)}</span>
                              <Badge variant={order.status === 'Delivered' ? 'default' : 'secondary'} className="w-fit mt-1">
                                 {order.status}
