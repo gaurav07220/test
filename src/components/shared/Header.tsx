@@ -1,12 +1,22 @@
 
+"use client";
+
 import Link from 'next/link';
 import { Logo } from './Logo';
 import { Search } from './Search';
 import { UserNav } from './UserNav';
 import { CartButton } from './CartButton';
 import { Button } from '../ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileHeader } from './MobileHeader';
 
 export function Header() {
+  const isMobile = useIsMobile();
+
+  if(isMobile) {
+    return <MobileHeader />;
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">

@@ -1,8 +1,18 @@
 
+"use client";
+
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileFooter } from './MobileFooter';
 
 export function Footer() {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileFooter />;
+  }
+
   return (
     <footer className="bg-secondary text-secondary-foreground border-t">
       <div className="container mx-auto px-4 py-8">
@@ -14,7 +24,7 @@ export function Footer() {
           <div>
             <h3 className="font-headline font-semibold mb-4">Shop</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-primary">Groceries</Link></li>
+              <li><Link href="/products" className="hover:text-primary">Groceries</Link></li>
               <li><Link href="#" className="hover:text-primary">Electronics</Link></li>
               <li><Link href="#" className="hover:text-primary">For Home</Link></li>
               <li><Link href="#" className="hover:text-primary">Special Offers</Link></li>

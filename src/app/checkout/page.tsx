@@ -92,48 +92,50 @@ export default function CheckoutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-headline font-bold mb-6">Checkout</h1>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2">
+      <main className="flex-grow container mx-auto px-4 py-8 pb-20">
+        <h1 className="text-2xl font-headline font-bold mb-6">Checkout</h1>
+        <div className="flex flex-col gap-6">
+          
+          <div className="order-2">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Shipping Information</CardTitle>
-                    <CardDescription>Enter the address where you want to receive your order.</CardDescription>
+                    <CardTitle className="text-lg">Shipping Information</CardTitle>
                   </CardHeader>
-                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CardContent className="grid grid-cols-1 gap-4">
                     <FormField name="name" control={form.control} render={({ field }) => (
-                        <FormItem className="md:col-span-2">
+                        <FormItem>
                             <FormLabel>Full Name</FormLabel>
                             <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
                     <FormField name="address" control={form.control} render={({ field }) => (
-                        <FormItem className="md:col-span-2">
+                        <FormItem>
                             <FormLabel>Street Address</FormLabel>
                             <FormControl><Input placeholder="123 Main St" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
-                    <FormField name="city" control={form.control} render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>City</FormLabel>
-                            <FormControl><Input placeholder="Anytown" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                    <FormField name="zip" control={form.control} render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>ZIP / Postal Code</FormLabel>
-                            <FormControl><Input placeholder="12345" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField name="city" control={form.control} render={({ field }) => (
+                          <FormItem>
+                              <FormLabel>City</FormLabel>
+                              <FormControl><Input placeholder="Anytown" {...field} /></FormControl>
+                              <FormMessage />
+                          </FormItem>
+                      )} />
+                      <FormField name="zip" control={form.control} render={({ field }) => (
+                          <FormItem>
+                              <FormLabel>ZIP Code</FormLabel>
+                              <FormControl><Input placeholder="12345" {...field} /></FormControl>
+                              <FormMessage />
+                          </FormItem>
+                      )} />
+                    </div>
                     <FormField name="country" control={form.control} render={({ field }) => (
-                        <FormItem className="md:col-span-2">
+                        <FormItem>
                             <FormLabel>Country</FormLabel>
                             <FormControl><Input placeholder="United States" {...field} /></FormControl>
                             <FormMessage />
@@ -144,8 +146,7 @@ export default function CheckoutPage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Payment Details</CardTitle>
-                    <CardDescription>Enter your payment information.</CardDescription>
+                    <CardTitle className="text-lg">Payment Details</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField name="cardNumber" control={form.control} render={({ field }) => (
@@ -158,7 +159,7 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-2 gap-4">
                         <FormField name="expiryDate" control={form.control} render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Expiry Date</FormLabel>
+                                <FormLabel>Expiry</FormLabel>
                                 <FormControl><Input placeholder="MM/YY" {...field} /></FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -181,20 +182,19 @@ export default function CheckoutPage() {
             </Form>
           </div>
 
-          <div className="md:col-span-1">
+          <div className="order-1">
             <Card>
               <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle className="text-lg">Order Summary ({cart.length})</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-3">
+              <CardContent className="space-y-2">
+                <ul className="space-y-2 text-sm">
                   {cart.map(item => (
-                    <li key={item.id} className="flex items-center justify-between text-sm">
+                    <li key={item.id} className="flex items-center justify-between">
                         <div className="flex items-center">
-                            <Image src={item.image.imageUrl} alt={item.name} width={40} height={40} className="rounded-md mr-3" data-ai-hint={item.image.imageHint} />
+                            <Image src={item.image.imageUrl} alt={item.name} width={32} height={32} className="rounded-md mr-2" data-ai-hint={item.image.imageHint} />
                             <div>
-                                <p className="font-medium">{item.name}</p>
-                                <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                                <p className="font-medium line-clamp-1">{item.name} (x{item.quantity})</p>
                             </div>
                         </div>
                         <span>${(item.price * item.quantity).toFixed(2)}</span>
@@ -202,13 +202,13 @@ export default function CheckoutPage() {
                   ))}
                 </ul>
                 <Separator />
-                <div className="space-y-2">
+                <div className="space-y-1 text-sm">
                     <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
                     <div className="flex justify-between"><span>Taxes</span><span>${taxes.toFixed(2)}</span></div>
                     <div className="flex justify-between"><span>Shipping</span><span>${shipping.toFixed(2)}</span></div>
                 </div>
                 <Separator />
-                <div className="flex justify-between font-bold text-lg">
+                <div className="flex justify-between font-bold">
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>
                 </div>

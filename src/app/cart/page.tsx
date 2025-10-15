@@ -25,18 +25,18 @@ export default function CartPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-4 py-8 pb-20">
         <div className="flex items-center mb-6">
-            <ShoppingCart className="h-8 w-8 mr-3 text-primary" />
-            <h1 className="text-3xl font-headline font-bold">Your Shopping Cart</h1>
+            <ShoppingCart className="h-6 w-6 mr-2 text-primary" />
+            <h1 className="text-2xl font-headline font-bold">Your Cart</h1>
         </div>
 
         {cart.length === 0 ? (
-          <Card className="text-center p-12">
+          <Card className="text-center p-8">
             <CardContent className="flex flex-col items-center gap-4">
-                <ShoppingCart className="h-16 w-16 text-muted-foreground" />
-                <h2 className="text-2xl font-semibold">Your cart is empty</h2>
-                <p className="text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
+                <ShoppingCart className="h-12 w-12 text-muted-foreground" />
+                <h2 className="text-xl font-semibold">Your cart is empty</h2>
+                <p className="text-muted-foreground text-sm">Looks like you haven't added anything yet.</p>
                 <Button asChild>
                 <Link href="/products">
                     <ArrowLeft className="mr-2 h-4 w-4" /> Start Shopping
@@ -45,58 +45,55 @@ export default function CartPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2">
+          <div className="flex flex-col gap-6">
+            <div>
               <Card>
                 <CardHeader>
                     <div className="flex justify-between items-center">
-                        <CardTitle>Cart Items ({cart.reduce((sum, item) => sum + item.quantity, 0)})</CardTitle>
+                        <CardTitle className="text-lg">Items ({cart.reduce((sum, item) => sum + item.quantity, 0)})</CardTitle>
                         <Button variant="outline" size="sm" onClick={clearCart}>
-                            <Trash2 className="mr-2 h-4 w-4" /> Clear Cart
+                            <Trash2 className="mr-2 h-4 w-4" /> Clear
                         </Button>
                     </div>
                 </CardHeader>
                 <CardContent className="p-0">
                   <ul className="divide-y">
                     {cart.map((item) => (
-                      <li key={item.id} className="flex items-center p-4">
+                      <li key={item.id} className="flex items-center p-3">
                         <Image
                           src={item.image.imageUrl}
                           alt={item.name}
-                          width={80}
-                          height={80}
-                          className="rounded-md object-cover mr-4"
+                          width={64}
+                          height={64}
+                          className="rounded-md object-cover mr-3"
                           data-ai-hint={item.image.imageHint}
                         />
                         <div className="flex-grow">
-                          <p className="font-semibold">{item.name}</p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="font-semibold text-sm line-clamp-1">{item.name}</p>
+                          <p className="text-xs text-muted-foreground">
                             ${item.price.toFixed(2)}
                           </p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-7 w-7"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           >
                             <Minus className="h-4 w-4" />
                           </Button>
-                          <span className="font-bold w-10 text-center">{item.quantity}</span>
+                          <span className="font-bold w-8 text-center text-sm">{item.quantity}</span>
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-7 w-7"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
                         </div>
-                        <p className="font-semibold w-20 text-right">
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </p>
-                        <Button variant="ghost" size="icon" className="ml-2" onClick={() => removeFromCart(item.id)}>
+                         <Button variant="ghost" size="icon" className="ml-1" onClick={() => removeFromCart(item.id)}>
                             <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       </li>
@@ -106,12 +103,12 @@ export default function CartPage() {
               </Card>
             </div>
 
-            <div className="md:col-span-1">
+            <div>
               <Card>
                 <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
+                  <CardTitle className="text-lg">Order Summary</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
@@ -125,7 +122,7 @@ export default function CartPage() {
                     <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
                   </div>
                   <Separator />
-                  <div className="flex justify-between font-bold text-lg">
+                  <div className="flex justify-between font-bold text-base">
                     <span>Total</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
