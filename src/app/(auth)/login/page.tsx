@@ -21,7 +21,7 @@ export default function LoginPage() {
             <CardHeader>
                 <CardTitle>Sign In</CardTitle>
                 <CardDescription>
-                    New to SwiftStore?{" "}
+                    New to Blinkit?{" "}
                     <Link href="/register" className="text-primary hover:underline">
                         Sign Up
                     </Link>

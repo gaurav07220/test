@@ -31,7 +31,7 @@ function useAuth() {
         // This simulates checking auth state on the client
         // For example, checking localStorage or a cookie.
         // For now, we'll just mock a logged in user.
-        setUser({ name: "Demo User", email: "user@swiftstore.com", role: 'customer' });
+        setUser({ name: "Demo User", email: "user@blinkit.com", role: 'customer' });
     }, []);
 
     return { user };

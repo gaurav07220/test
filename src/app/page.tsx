@@ -30,7 +30,7 @@ export default function Home() {
               Groceries, Delivered in Minutes
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-              SwiftStore brings your favorite local stores right to your doorstep, faster than ever before.
+              Blinkit brings your favorite local stores right to your doorstep, faster than ever before.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg">

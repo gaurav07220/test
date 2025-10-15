@@ -21,7 +21,7 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-headline font-semibold mb-4">About SwiftStore</h3>
+            <h3 className="font-headline font-semibold mb-4">About Blinkit</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="#" className="hover:text-primary">About Us</Link></li>
               <li><Link href="#" className="hover:text-primary">Careers</Link></li>
@@ -40,7 +40,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} SwiftStore, Inc. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Blinkit, Inc. All rights reserved.</p>
           {/* Add social media icons here if needed */}
         </div>
       </div>

@@ -43,13 +43,13 @@ export function LoginForm() {
     setIsLoading(true);
     // Mock API call
     setTimeout(() => {
-      if (data.email === 'admin@swiftstore.com') {
+      if (data.email === 'admin@blinkit.com') {
         toast({
           title: 'Login Successful',
           description: "Welcome back, Admin! Redirecting...",
         });
         router.push('/admin');
-      } else if (data.email === 'store@swiftstore.com') {
+      } else if (data.email === 'store@blinkit.com') {
         toast({
             title: 'Login Successful',
             description: "Welcome back, Store Owner! Redirecting...",

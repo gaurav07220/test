@@ -27,14 +27,14 @@ export const users: User[] = [
     {
         id: 'user-2',
         name: 'Bob Smith',
-        email: 'store@swiftstore.com',
+        email: 'store@blinkit.com',
         role: 'store',
         storeId: 'store-1',
     },
     {
         id: 'user-3',
         name: 'Charlie Brown',
-        email: 'admin@swiftstore.com',
+        email: 'admin@blinkit.com',
         role: 'admin',
     },
 ];

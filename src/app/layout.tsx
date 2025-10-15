@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/context/CartProvider';
 
 export const metadata: Metadata = {
-  title: 'SwiftStore',
+  title: 'Blinkit',
   description: 'Your one-stop shop for everything, delivered fast.',
 };
 
