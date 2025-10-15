@@ -21,13 +21,14 @@ import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useAuth, Role } from '@/hooks/use-auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['store', 'admin'], {
+  role: z.enum(['customer', 'store', 'admin'], {
     required_error: 'You need to select an account type.',
   }),
   storeName: z.string().optional(),
@@ -64,7 +65,7 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
-      role: 'store',
+      role: 'customer',
       storeName: '',
       storeAddress: ''
     },
@@ -97,140 +98,161 @@ export function RegisterForm() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="John Doe"
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="name@example.com"
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>I am a...</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="store" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Store Owner
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="admin" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Administrator
-                    </FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        {selectedRole === 'store' && (
-          <Card className="bg-muted/50">
-            <CardHeader>
-              <CardTitle className="text-base">Store Details</CardTitle>
-              <CardDescription className="text-xs">
-                Please provide information about your store.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <FormField
+    <Card>
+        <CardHeader>
+        <CardTitle>Sign Up</CardTitle>
+        <CardDescription>
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline">
+            Sign In
+            </Link>
+        </CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
                 control={form.control}
-                name="storeName"
+                name="name"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Store Name</FormLabel>
+                    <FormItem>
+                    <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Acme Fresh Market" {...field} />
+                        <Input
+                        placeholder="John Doe"
+                        disabled={isLoading}
+                        {...field}
+                        />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
+                    </FormItem>
                 )}
-              />
-              <FormField
+                />
+                <FormField
                 control={form.control}
-                name="storeAddress"
+                name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Store Address</FormLabel>
+                    <FormItem>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="123 Market St, Anytown" {...field} />
+                        <Input
+                        type="email"
+                        placeholder="name@example.com"
+                        disabled={isLoading}
+                        {...field}
+                        />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
+                    </FormItem>
                 )}
-              />
-            </CardContent>
-          </Card>
-        )}
+                />
+                <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                        <Input
+                        type="password"
+                        placeholder="••••••••"
+                        disabled={isLoading}
+                        {...field}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                    <FormItem className="space-y-3">
+                    <FormLabel>Account Type</FormLabel>
+                    <FormControl>
+                        <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex space-x-4"
+                        >
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                            <RadioGroupItem value="customer" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                            Customer
+                            </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                            <RadioGroupItem value="store" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                            Store Owner
+                            </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                            <RadioGroupItem value="admin" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                            Admin
+                            </FormLabel>
+                        </FormItem>
+                        </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                
+                {selectedRole === 'store' && (
+                <Card className="bg-muted/50">
+                    <CardHeader>
+                    <CardTitle className="text-base">Store Details</CardTitle>
+                    <CardDescription className="text-xs">
+                        Please provide information about your store.
+                    </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="storeName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Store Name</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., Acme Fresh Market" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="storeAddress"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Store Address</FormLabel>
+                            <FormControl>
+                            <Input placeholder="123 Market St, Anytown" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </CardContent>
+                </Card>
+                )}
 
-        <Button disabled={isLoading} className="w-full" type="submit">
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Create Account
-        </Button>
-      </form>
-    </Form>
+                <Button disabled={isLoading} className="w-full" type="submit">
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Create Account
+                </Button>
+            </form>
+            </Form>
+        </CardContent>
+    </Card>
   );
 }
