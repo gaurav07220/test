@@ -10,6 +10,9 @@ import {
   CreditCard,
   Package,
   Settings,
+  ShoppingCart,
+  Users,
+  LineChart,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -33,6 +36,8 @@ function useAuth() {
         // This simulates checking auth state on the client
         // For example, checking localStorage or a cookie.
         // For now, we'll just mock a logged in user.
+        // To test different roles, change 'customer' to 'store' or 'admin'
+        // and update the email to match the login logic (e.g., 'admin@blinkit.com')
         setUser({ name: "Demo User", email: "user@blinkit.com", role: 'customer' });
     }, []);
 
@@ -70,39 +75,46 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href="/account/orders">
-              <Package className="mr-2 h-4 w-4" />
-              <span>My Orders</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/account/profile">
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/account/billing">
-              <CreditCard className="mr-2 h-4 w-4" />
-              <span>Billing</span>
-            </Link>
-          </DropdownMenuItem>
-           <DropdownMenuItem asChild>
-            <Link href="/account/settings">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
-          {user.role === 'admin' && (
-            <>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                <Link href="/admin">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Admin Dashboard</span>
+
+        {/* Customer Links */}
+        {user.role === 'customer' && (
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link href="/account/orders">
+                <Package className="mr-2 h-4 w-4" />
+                <span>My Orders</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/account/profile">
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+                <Link href="/account/settings">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
                 </Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
+        
+        {/* Admin Links */}
+        {user.role === 'admin' && (
+          <DropdownMenuGroup>
+              <DropdownMenuLabel>Admin</DropdownMenuLabel>
+               <DropdownMenuItem asChild>
+                    <Link href="/admin">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/admin/orders">
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        <span>Orders</span>
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link href="/admin/products">
@@ -110,17 +122,52 @@ export function UserNav() {
                         <span>Products</span>
                     </Link>
                 </DropdownMenuItem>
-            </>
-          )}
-          {user.role === 'store' && (
-            <DropdownMenuItem asChild>
-              <Link href="/store">
-                <Store className="mr-2 h-4 w-4" />
-                <span>Store Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
-          )}
-        </DropdownMenuGroup>
+                 <DropdownMenuItem asChild>
+                    <Link href="/admin/users">
+                        <Users className="mr-2 h-4 w-4" />
+                        <span>Customers</span>
+                    </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                    <Link href="/admin/analytics">
+                        <LineChart className="mr-2 h-4 w-4" />
+                        <span>Analytics</span>
+                    </Link>
+                </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
+
+        {/* Store Links */}
+        {user.role === 'store' && (
+             <DropdownMenuGroup>
+                <DropdownMenuLabel>Store</DropdownMenuLabel>
+                <DropdownMenuItem asChild>
+                    <Link href="/store">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/store/orders">
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        <span>Orders</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/store/products">
+                        <Package className="mr-2 h-4 w-4" />
+                        <span>Products</span>
+                    </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                    <Link href="/store/analytics">
+                        <LineChart className="mr-2 h-4 w-4" />
+                        <span>Analytics</span>
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuGroup>
+        )}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4" />
