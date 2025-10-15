@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/shared/Logo';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function RegisterPage() {
   return (
@@ -16,7 +17,20 @@ export default function RegisterPage() {
               Enter your details below to create your account
             </p>
         </div>
-        <RegisterForm />
+        <Card>
+          <CardHeader>
+            <CardTitle>Sign Up</CardTitle>
+            <CardDescription>
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary hover:underline">
+                Sign In
+              </Link>
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RegisterForm />
+          </CardContent>
+        </Card>
         <p className="px-8 text-center text-sm text-muted-foreground">
           By clicking continue, you agree to our{' '}
           <Link
