@@ -277,7 +277,7 @@ export default function CheckoutPage() {
                 </Card>
 
                 <div className="hidden md:block">
-                  <Button type="submit" className="w-full" size="lg">
+                  <Button type="submit" className="w-full" size="lg" form="checkout-form">
                     {paymentMethod === 'card' ? <CreditCard className="mr-2 h-5 w-5" /> : <Wallet className="mr-2 h-5 w-5" />}
                     Place Order (${total.toFixed(2)})
                   </Button>
@@ -333,5 +333,6 @@ export default function CheckoutPage() {
       </main>
     </div>
   );
+}
 
     
