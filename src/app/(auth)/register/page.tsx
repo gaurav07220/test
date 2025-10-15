@@ -2,14 +2,12 @@
 import Link from 'next/link';
 import { Logo } from '@/components/shared/Logo';
 import { RegisterForm } from '@/components/auth/RegisterForm';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-
 
 export default function RegisterPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
-      <div className="flex flex-col space-y-2 text-center">
+        <div className="flex flex-col space-y-2 text-center">
             <Logo />
             <h1 className="text-2xl font-semibold tracking-tight font-headline">
               Create an account

@@ -35,7 +35,7 @@ const formSchema = z.object({
   storeAddress: z.string().optional(),
 }).refine(data => {
     if (data.role === 'store') {
-        return data.storeName && data.storeName.length > 0;
+        return !!data.storeName && data.storeName.length > 0;
     }
     return true;
 }, {
@@ -43,7 +43,7 @@ const formSchema = z.object({
     path: ["storeName"],
 }).refine(data => {
     if (data.role === 'store') {
-        return data.storeAddress && data.storeAddress.length > 0;
+        return !!data.storeAddress && data.storeAddress.length > 0;
     }
     return true;
 }, {

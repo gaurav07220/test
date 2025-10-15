@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // This should only run on the client
     try {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
@@ -32,6 +33,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("Failed to parse user from localStorage", error);
+      localStorage.removeItem('user');
+      setUser(null);
     }
     setIsLoading(false);
   }, []);
