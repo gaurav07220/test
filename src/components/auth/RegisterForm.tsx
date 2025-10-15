@@ -20,15 +20,34 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useAuth, Role } from '@/hooks/use-auth';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['customer', 'store', 'admin'], {
+  role: z.enum(['store', 'admin'], {
     required_error: 'You need to select an account type.',
   }),
+  storeName: z.string().optional(),
+  storeAddress: z.string().optional(),
+}).refine(data => {
+    if (data.role === 'store') {
+        return data.storeName && data.storeName.length > 0;
+    }
+    return true;
+}, {
+    message: "Store name is required.",
+    path: ["storeName"],
+}).refine(data => {
+    if (data.role === 'store') {
+        return data.storeAddress && data.storeAddress.length > 0;
+    }
+    return true;
+}, {
+    message: "Store address is required.",
+    path: ["storeAddress"],
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -45,9 +64,13 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
-      role: 'customer',
+      role: 'store',
+      storeName: '',
+      storeAddress: ''
     },
   });
+
+  const selectedRole = form.watch("role");
 
   const onSubmit = (data: UserFormValue) => {
     setIsLoading(true);
@@ -143,14 +166,6 @@ export function RegisterForm() {
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="customer" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Customer
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
                       <RadioGroupItem value="store" />
                     </FormControl>
                     <FormLabel className="font-normal">
@@ -171,6 +186,46 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
+        
+        {selectedRole === 'store' && (
+          <Card className="bg-muted/50">
+            <CardHeader>
+              <CardTitle className="text-base">Store Details</CardTitle>
+              <CardDescription className="text-xs">
+                Please provide information about your store.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="storeName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Store Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Acme Fresh Market" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="storeAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Store Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="123 Market St, Anytown" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        )}
+
         <Button disabled={isLoading} className="w-full" type="submit">
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Create Account
