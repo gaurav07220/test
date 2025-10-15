@@ -12,6 +12,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <Logo />
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium ml-6">
+          <Link href="/products" className="transition-colors hover:text-primary">Products</Link>
           <Link href="#categories" className="transition-colors hover:text-primary">Categories</Link>
           <Link href="#" className="transition-colors hover:text-primary">Deals</Link>
           <Link href="#" className="transition-colors hover:text-primary">What's New</Link>

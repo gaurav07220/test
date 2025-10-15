@@ -34,7 +34,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-lg">
-                <Link href="#products">
+                <Link href="/products">
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Start Shopping
                 </Link>
@@ -74,7 +74,7 @@ export default function Home() {
             </div>
             <div className="text-center mt-12">
               <Button asChild variant="outline" size="lg">
-                <Link href="#">
+                <Link href="/products">
                   Shop All Products <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
