@@ -1,10 +1,8 @@
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { products as allProducts } from '@/lib/data';
 import { ProductCard } from '@/components/shared/ProductCard';
 import { Header } from '@/components/shared/Header';
+import { Search } from '@/components/shared/Search';
 
 export default function ProductsPage() {
   return (
@@ -13,7 +11,10 @@ export default function ProductsPage() {
       <main className="flex-grow pb-16">
         <section className="py-8">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-headline font-bold text-center mb-8">All Products</h1>
+            <h1 className="text-3xl font-headline font-bold text-center mb-4">All Products</h1>
+            <div className="mb-8 max-w-md mx-auto">
+              <Search />
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {allProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
