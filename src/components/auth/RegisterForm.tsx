@@ -44,7 +44,7 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
-      role: 'customer',
+      role: 'store',
     },
   });
 
@@ -140,14 +140,6 @@ export function RegisterForm() {
                   defaultValue={field.value}
                   className="flex space-x-4"
                 >
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="customer" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Customer
-                    </FormLabel>
-                  </FormItem>
                   <FormItem className="flex items-center space-x-2 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="store" />
