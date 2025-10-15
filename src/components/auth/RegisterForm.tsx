@@ -28,24 +28,51 @@ const formSchema = z.object({
   role: z.enum(['customer', 'admin'], {
     required_error: 'You need to select an account type.',
   }),
-  storeName: z.string().optional(),
-  storeAddress: z.string().optional(),
-}).refine(data => {
+  address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().optional(),
+  zip: z.string().optional(),
+}).refine((data) => {
     if (data.role === 'customer') {
-        return true;
+        return !!data.address && data.address.length >= 5;
     }
     return true;
 }, {
-    message: 'Store name must be at least 2 characters.',
-    path: ['storeName'],
-}).refine(data => {
+    message: "Address must be at least 5 characters.",
+    path: ["address"],
+}).refine((data) => {
     if (data.role === 'customer') {
-        return true;
+        return !!data.city && data.city.length >= 2;
     }
     return true;
 }, {
-    message: 'Store address must be at least 5 characters.',
-    path: ['storeAddress'],
+    message: "City must be at least 2 characters.",
+    path: ["city"],
+}).refine((data) => {
+    if (data.role === 'customer') {
+        return !!data.state && data.state.length >= 2;
+    }
+    return true;
+}, {
+    message: "State must be at least 2 characters.",
+    path: ["state"],
+}).refine((data) => {
+    if (data.role === 'customer') {
+        return !!data.country && data.country.length >= 2;
+    }
+    return true;
+}, {
+    message: "Country must be at least 2 characters.",
+    path: ["country"],
+}).refine((data) => {
+    if (data.role === 'customer') {
+        return !!data.zip && data.zip.length >= 5;
+    }
+    return true;
+}, {
+    message: "Zip code must be at least 5 characters.",
+    path: ["zip"],
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -63,8 +90,11 @@ export function RegisterForm() {
       email: '',
       password: '',
       role: 'customer',
-      storeName: '',
-      storeAddress: '',
+      address: '',
+      city: '',
+      state: '',
+      country: '',
+      zip: '',
     },
   });
 
@@ -185,34 +215,77 @@ export function RegisterForm() {
           )}
         />
         
-        {selectedRole === 'store' && (
+        {selectedRole === 'customer' && (
             <>
                 <FormField
                     control={form.control}
-                    name="storeName"
+                    name="address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Store Name</FormLabel>
+                            <FormLabel>Address</FormLabel>
                             <FormControl>
-                                <Input placeholder="My Awesome Store" {...field} />
+                                <Input placeholder="123 Main St" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="storeAddress"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Store Address</FormLabel>
-                            <FormControl>
-                                <Input placeholder="123 Market St" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>City</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Anytown" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="state"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>State</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="CA" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                 <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="country"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Country</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="USA" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="zip"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Zip Code</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="12345" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
             </>
         )}
 
