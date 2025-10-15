@@ -6,6 +6,7 @@ import {
   User,
   LogOut,
   Settings,
+  Package
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -40,6 +41,8 @@ export function UserNav() {
     );
   }
 
+  const isCustomer = user.role === 'customer';
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -62,6 +65,14 @@ export function UserNav() {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
+          {isCustomer && (
+             <DropdownMenuItem asChild>
+                <Link href="/account/orders">
+                  <Package className="mr-2 h-4 w-4" />
+                  <span>My Orders</span>
+                </Link>
+              </DropdownMenuItem>
+          )}
           <DropdownMenuItem asChild>
             <Link href="/account/profile">
               <User className="mr-2 h-4 w-4" />
