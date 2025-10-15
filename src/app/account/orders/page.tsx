@@ -108,7 +108,7 @@ export default function MyOrdersPage() {
         
         {selectedOrder && (
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="sm:max-w-lg">
+                <DialogContent className="max-w-md w-full sm:max-w-lg">
                     <DialogHeader>
                         <DialogTitle>Order Details</DialogTitle>
                         <DialogDescription>
