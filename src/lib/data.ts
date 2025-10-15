@@ -70,5 +70,36 @@ export const orders: Order[] = [
             city: 'Anytown',
             zip: '12345'
         }
-    }
+    },
+    {
+        id: 'order-3',
+        userId: 'user-1',
+        date: new Date('2023-10-28T09:00:00Z'),
+        status: 'Shipped',
+        total: 12.98,
+        items: [
+            { product: products[2], quantity: 1, price: products[2].price },
+            { product: products[6], quantity: 1, price: products[6].price },
+        ],
+        shippingAddress: {
+            street: '123 Main St',
+            city: 'Anytown',
+            zip: '12345'
+        }
+    },
+    {
+        id: 'order-4',
+        userId: 'user-2',
+        date: new Date('2023-10-29T11:00:00Z'),
+        status: 'Delivered',
+        total: 7.99,
+        items: [
+            { product: products[5], quantity: 1, price: products[5].price },
+        ],
+        shippingAddress: {
+            street: '456 Oak Ave',
+            city: 'Someville',
+            zip: '67890'
+        }
+    },
 ];

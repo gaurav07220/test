@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from 'react';
@@ -21,6 +22,8 @@ import {
 import { UserNav } from "../shared/UserNav";
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "./AdminSidebar";
+import { StoreSidebar } from './StoreSidebar';
+import { AccountSidebar } from '../account/AccountSidebar';
 
 function getBreadcrumbs(pathname: string) {
     const parts = pathname.split('/').filter(part => part);
@@ -30,6 +33,20 @@ function getBreadcrumbs(pathname: string) {
         return { href, text };
     });
     return breadcrumbs;
+}
+
+function Sidebar() {
+    const pathname = usePathname();
+    if (pathname.startsWith('/admin')) {
+        return <AdminSidebar />;
+    }
+    if (pathname.startsWith('/store')) {
+        return <StoreSidebar />;
+    }
+    if (pathname.startsWith('/account')) {
+        return <AccountSidebar />;
+    }
+    return null;
 }
 
 export function DashboardHeader() {
@@ -47,7 +64,7 @@ export function DashboardHeader() {
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
           <nav className="grid gap-6 text-lg font-medium">
-            <AdminSidebar />
+            <Sidebar />
           </nav>
         </SheetContent>
       </Sheet>

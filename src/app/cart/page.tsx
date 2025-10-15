@@ -129,8 +129,8 @@ export default function CartPage() {
                     <span>Total</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full" size="lg">
-                    Proceed to Checkout
+                  <Button className="w-full" size="lg" asChild>
+                    <Link href="/checkout">Proceed to Checkout</Link>
                   </Button>
                 </CardContent>
               </Card>
