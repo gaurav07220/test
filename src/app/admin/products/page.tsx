@@ -135,14 +135,14 @@ export default function AdminProductsPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4 mb-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
         <div>
             <h1 className="text-2xl font-bold tracking-tight">Product Management</h1>
             <p className="text-muted-foreground">
                 Manage your product catalog, including bulk price adjustments.
             </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
             <Dialog open={isBulkActionsOpen} onOpenChange={setIsBulkActionsOpen}>
                 <DialogTrigger asChild>
                     <Button size="sm" variant="outline">Bulk Actions</Button>
