@@ -212,7 +212,7 @@ export default function AdminProductsPage() {
             <Button size="sm" className="gap-1" asChild>
               <Link href="/admin/products/new">
                 <PlusCircle className="h-3.5 w-3.5" />
-                <span>Add New Product</span>
+                <span>Add</span>
               </Link>
             </Button>
         </div>
