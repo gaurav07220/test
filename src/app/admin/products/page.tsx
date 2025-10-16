@@ -137,9 +137,9 @@ export default function AdminProductsPage() {
     <>
       <div className="flex items-center justify-between gap-4 mb-4">
         <div>
-            <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Product Management</h1>
             <p className="text-muted-foreground">
-                Manage your products and view their sales performance.
+                Manage your product catalog, including bulk price adjustments.
             </p>
         </div>
         <div className="flex gap-2">
@@ -212,7 +212,7 @@ export default function AdminProductsPage() {
             <Button size="sm" className="gap-1" asChild>
               <Link href="/admin/products/new">
                 <PlusCircle className="h-3.5 w-3.5" />
-                <span>Add Product</span>
+                <span>Add New Product</span>
               </Link>
             </Button>
         </div>
