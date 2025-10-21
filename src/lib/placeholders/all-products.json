@@ -1,126 +1,124 @@
-
 {
-    "products": [
-      {
-        "id": "prod-1",
-        "name": "Organic Red Apples",
-        "description": "Crisp, sweet, and juicy. Perfect for snacking.",
-        "price": "3.99",
-        "image": {
-          "id": "product-1",
-          "description": "A pile of fresh, crisp red apples.",
-          "imageUrl": "https://picsum.photos/seed/p1/400/400",
-          "imageHint": "fresh apples"
-        },
-        "categoryId": "cat-1",
-        "storeId": "store-1",
-        "inventory": 100
+  "products": [
+    {
+      "id": "ind-prod-5",
+      "name": "Whole Wheat Atta – Premium Chakki 10 kg",
+      "description": "Stone-ground whole wheat flour, ideal for chapati & rotla.",
+      "price": "40",
+      "image": {
+        "id": "image-ind-5",
+        "description": "Bag of whole wheat atta flour",
+        "imageUrl": "/images/ata232.webp",
+        "imageHint": "wheat flour bag"
       },
-      {
-        "id": "prod-2",
-        "name": "Whole Milk (1 Gallon)",
-        "description": "Fresh, creamy whole milk for your daily needs.",
-        "price": "4.50",
-        "image": {
-          "id": "product-2",
-          "description": "A carton of fresh milk.",
-          "imageUrl": "https://picsum.photos/seed/p2/400/400",
-          "imageHint": "carton milk"
-        },
-        "categoryId": "cat-2",
-        "storeId": "store-1",
-        "inventory": 50
+      "categoryId": "cat-flour",
+      "storeId": "store-ahm-1",
+      "inventory": 120
+    },
+    {
+      "id": "ind-prod-6",
+      "name": "Assorted Dry Fruits 1 kg (Cashew, Almond, Raisin)",
+      "description": "Health-packed dry fruits mix popular in Gujarat households.",
+      "price": "11.00",
+      "image": {
+        "id": "image-ind-6",
+        "description": "Tray of assorted dry fruits",
+        "imageUrl": "/images/dryfruit.webp",
+        "imageHint": "dry fruits mix"
       },
-      {
-        "id": "prod-3",
-        "name": "Sourdough Bread Loaf",
-        "description": "Artisan sourdough, baked fresh daily.",
-        "price": "6.00",
-        "image": {
-          "id": "product-3",
-          "description": "A loaf of freshly baked bread.",
-          "imageUrl": "https://picsum.photos/seed/p3/400/400",
-          "imageHint": "artisan bread"
-        },
-        "categoryId": "cat-3",
-        "storeId": "store-2",
-        "inventory": 30
+      "categoryId": "cat-dry-fruits",
+      "storeId": "store-ahm-1",
+      "inventory": 40
+    },
+    {
+      "id": "ind-prod-7",
+      "name": "Rakhi Special Farsan – Gujarati Snack Mix 500 g",
+      "description": "Crunchy savory snack mix (farsan) — ideal for festive occasions in Gujarat.",
+      "price": "325.00",
+      "image": {
+        "id": "image-ind-7",
+        "description": "Packet of Gujarati farsan snack mix",
+        "imageUrl": "/images/farsan.webp",
+        "imageHint": "farsan snack packet"
       },
-      {
-        "id": "prod-4",
-        "name": "Free-Range Brown Eggs",
-        "description": "A dozen large, high-quality brown eggs.",
-        "price": "5.49",
-        "image": {
-          "id": "product-4",
-          "description": "A dozen of free-range eggs in a carton.",
-          "imageUrl": "https://picsum.photos/seed/p4/400/400",
-          "imageHint": "eggs carton"
-        },
-        "categoryId": "cat-2",
-        "storeId": "store-1",
-        "inventory": 80
+      "categoryId": "cat-snacks",
+      "storeId": "store-ahm-1",
+      "inventory": 90
+    },
+    {
+      "id": "ind-prod-8",
+      "name": "Amul Gold Full Cream Milk (1 L)",
+      "description": "Fresh, creamy milk from Gujarat Cooperative — rich in taste and nutrition.",
+      "price": "72.00",
+      "image": {
+        "id": "image-ind-8",
+        "description": "Pack of Amul Gold milk",
+        "imageUrl": "/images/amul.webp",
+        "imageHint": "amul milk pack"
       },
-      {
-        "id": "prod-5",
-        "name": "Organic Bananas (Bunch)",
-        "description": "A bunch of perfectly ripe organic bananas.",
-        "price": "2.99",
-        "image": {
-          "id": "product-5",
-          "description": "A bunch of organic bananas.",
-          "imageUrl": "https://picsum.photos/seed/p5/400/400",
-          "imageHint": "fresh bananas"
-        },
-        "categoryId": "cat-1",
-        "storeId": "store-2",
-        "inventory": 120
+      "categoryId": "cat-dairy",
+      "storeId": "store-ahm-1",
+      "inventory": 200
+    },
+    {
+      "id": "ind-prod-9",
+      "name": "Amul Butter 500 g",
+      "description": "India’s favorite salted butter — smooth, rich, and perfect for toast or paratha.",
+      "price": "280.00",
+      "image": {
+        "id": "image-ind-9",
+        "description": "Pack of Amul butter",
+        "imageUrl": "/images/amul butter.webp",
+        "imageHint": "amul butter pack"
       },
-      {
-        "id": "prod-6",
-        "name": "Aged Cheddar Cheese",
-        "description": "A sharp and flavorful block of aged cheddar.",
-        "price": "7.99",
-        "image": {
-          "id": "product-6",
-          "description": "A block of cheddar cheese.",
-          "imageUrl": "https://picsum.photos/seed/p6/400/400",
-          "imageHint": "cheddar cheese"
-        },
-        "categoryId": "cat-2",
-        "storeId": "store-1",
-        "inventory": 45
+      "categoryId": "cat-dairy",
+      "storeId": "store-ahm-1",
+      "inventory": 150
+    },
+    {
+      "id": "ind-prod-10",
+      "name": "Amul Fresh Paneer 200 g",
+      "description": "Soft, fresh paneer from Amul — perfect for curries, bhurji, and snacks.",
+      "price": "98.00",
+      "image": {
+        "id": "image-ind-10",
+        "description": "Pack of Amul paneer cubes",
+        "imageUrl": "/images/amul paneer.webp",
+        "imageHint": "paneer cubes pack"
       },
-      {
-        "id": "prod-7",
-        "name": "Romaine Lettuce Head",
-        "description": "Fresh and crunchy romaine lettuce for salads.",
-        "price": "2.49",
-        "image": {
-          "id": "product-7",
-          "description": "A head of fresh lettuce.",
-          "imageUrl": "https://picsum.photos/seed/p7/400/400",
-          "imageHint": "fresh lettuce"
-        },
-        "categoryId": "cat-1",
-        "storeId": "store-2",
-        "inventory": 60
+      "categoryId": "cat-dairy",
+      "storeId": "store-ahm-1",
+      "inventory": 120
+    },
+    {
+      "id": "ind-prod-11",
+      "name": "Mahi Ghee (500 ml)",
+      "description": "Pure cow ghee made in Gujarat, aromatic and ideal for Indian cooking.",
+      "price": "415.00",
+      "image": {
+        "id": "image-ind-11",
+        "description": "Jar of Mahi cow ghee",
+        "imageUrl": "/images/mahi ghee.webp",
+        "imageHint": "ghee jar"
       },
-      {
-        "id": "prod-8",
-        "name": "Tomatoes on the Vine",
-        "description": "Juicy, red tomatoes, perfect for any dish.",
-        "price": "3.29",
-        "image": {
-          "id": "product-8",
-          "description": "Vine-ripened tomatoes.",
-          "imageUrl": "https://picsum.photos/seed/p8/400/400",
-          "imageHint": "ripe tomatoes"
-        },
-        "categoryId": "cat-1",
-        "storeId": "store-1",
-        "inventory": 90
-      }
-    ]
-  }
-  
+      "categoryId": "cat-dairy",
+      "storeId": "store-ahm-1",
+      "inventory": 90
+    },
+    {
+      "id": "ind-prod-12",
+      "name": "Amul Dahi (Curd) 400 g",
+      "description": "Thick, creamy curd made from pasteurized milk — perfect for meals and raita.",
+      "price": "45.00",
+      "image": {
+        "id": "image-ind-12",
+        "description": "Cup of Amul curd",
+        "imageUrl": "/images/amul dahi.webp",
+        "imageHint": "amul dahi cup"
+      },
+      "categoryId": "cat-dairy",
+      "storeId": "store-ahm-1",
+      "inventory": 180
+    }
+  ]
+}
