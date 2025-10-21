@@ -34,7 +34,7 @@
       "id": "ind-prod-7",
       "name": "Rakhi Special Farsan – Gujarati Snack Mix 500 g",
       "description": "Crunchy savory snack mix (farsan) — ideal for festive occasions in Gujarat.",
-      "price": "325.00",
+      "price": "25.00",
       "image": {
         "id": "image-ind-7",
         "description": "Packet of Gujarati farsan snack mix",
@@ -64,7 +64,7 @@
       "id": "ind-prod-9",
       "name": "Amul Butter 500 g",
       "description": "India’s favorite salted butter — smooth, rich, and perfect for toast or paratha.",
-      "price": "280.00",
+      "price": "28.00",
       "image": {
         "id": "image-ind-9",
         "description": "Pack of Amul butter",
@@ -94,7 +94,7 @@
       "id": "ind-prod-11",
       "name": "Mahi Ghee (500 ml)",
       "description": "Pure cow ghee made in Gujarat, aromatic and ideal for Indian cooking.",
-      "price": "415.00",
+      "price": "45.00",
       "image": {
         "id": "image-ind-11",
         "description": "Jar of Mahi cow ghee",
@@ -109,7 +109,7 @@
       "id": "ind-prod-12",
       "name": "Amul Dahi (Curd) 400 g",
       "description": "Thick, creamy curd made from pasteurized milk — perfect for meals and raita.",
-      "price": "45.00",
+      "price": "21.00",
       "image": {
         "id": "image-ind-12",
         "description": "Cup of Amul curd",
